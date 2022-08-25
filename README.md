@@ -1,4 +1,4 @@
-# GitHub Webbhook Middleware
+# GitHub Webhook Middleware
 
 GitHub Webhook Middleware is a middleware plugin for [Traefik](https://github.com/containous/traefik) which validates the signature in the [`X-Hub-Signature-256` header](https://docs.github.com/en/developers/webhooks-and-events/webhooks/securing-your-webhooks).
 
