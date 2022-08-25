@@ -3,3 +3,5 @@ type: middleware
 import: github.com/georg-jung/github-webhook-middleware
 summary: 'Validates GitHub Webhook signature in http header'
 
+testData:
+  secret: insecure-secret
