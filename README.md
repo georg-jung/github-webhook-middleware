@@ -4,22 +4,32 @@ GitHub Webhook Middleware is a middleware plugin for [Traefik](https://github.co
 
 ## Configuration
 
-Start with command
+Install with command
 
 ```yaml
 command:
-  - "--experimental.plugins.gh-webhook-middleware.modulename=github.com/23deg/jwt-middleware"
-  - "--experimental.plugins.gh-webhook-middleware.version=v0.1.2"
+  - "--experimental.plugins.gh-webhook.modulename=github.com/georg-jung/github-webhook-middleware"
+  - "--experimental.plugins.gh-webhook.version=v0.1.2"
 ```
 
-Activate plugin in your config  
+Or install inside static config file:
+
+```yaml
+experimental:
+  plugins:
+    gh-webhook:
+      modulename: github.com/georg-jung/github-webhook-middleware
+      version: v0.1.2
+```
+
+Activate plugin in your dynamic config file
 
 ```yaml
 http:
   middlewares:
     my-gh-webhook-middleware:
       plugin:
-        gh-webhook-middleware:
+        gh-webhook:
           secret: SECRET
           authHeader: X-Hub-Signature-256
           headerPrefix: sha256=
