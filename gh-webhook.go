@@ -3,6 +3,7 @@ package github_webhook_middleware
 import (
 	"bytes"
 	"context"
+	"encoding/hex"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -10,7 +11,6 @@ import (
 
 	"crypto/hmac"
 	"crypto/sha256"
-	"encoding/base64"
 )
 
 type Config struct {
@@ -74,7 +74,7 @@ func (g *GHW) ServeHTTP(res http.ResponseWriter, req *http.Request) {
 	// https://stackoverflow.com/a/43021236/1200847
 	req.Body = ioutil.NopCloser(bytes.NewBuffer(body))
 
-	verified, verificationError := verifyJWT(token, g.secret, body)
+	verified, verificationError := verifyToken(token, g.secret, body)
 	if verificationError != nil {
 		http.Error(res, "Not allowed", http.StatusUnauthorized)
 		return
@@ -88,13 +88,13 @@ func (g *GHW) ServeHTTP(res http.ResponseWriter, req *http.Request) {
 	}
 }
 
-// verifyJWT Verifies jwt token with secret
-func verifyJWT(token string, secret string, body []byte) (bool, error) {
+// verifyToken Verifies jwt token with secret
+func verifyToken(token string, secret string, body []byte) (bool, error) {
 	mac := hmac.New(sha256.New, []byte(secret))
 	mac.Write(body)
 	expectedMAC := mac.Sum(nil)
 
-	decodedVerification, errDecode := base64.RawURLEncoding.DecodeString(token)
+	decodedVerification, errDecode := hex.DecodeString(token)
 	if errDecode != nil {
 		return false, errDecode
 	}
@@ -102,6 +102,7 @@ func verifyJWT(token string, secret string, body []byte) (bool, error) {
 	if hmac.Equal(decodedVerification, expectedMAC) {
 		return true, nil
 	}
+
 	return false, nil
 }
 
