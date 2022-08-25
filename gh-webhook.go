@@ -1,4 +1,4 @@
-package gh_webhook_middleware
+package github_webhook_middleware
 
 import (
 	"bytes"
@@ -13,10 +13,6 @@ import (
 	"encoding/base64"
 )
 
-const (
-	basicTypeName = "GithubWebhookAuth"
-)
-
 type Config struct {
 	Secret       string `json:"secret,omitempty" loggable:"false"`
 	AuthHeader   string `json:"authHeader,omitempty"`
@@ -28,12 +24,11 @@ func CreateConfig() *Config {
 }
 
 type GHW struct {
-	next            http.Handler
-	name            string
-	secret          string
-	proxyHeaderName string
-	authHeader      string
-	headerPrefix    string
+	next         http.Handler
+	name         string
+	secret       string
+	authHeader   string
+	headerPrefix string
 }
 
 func New(ctx context.Context, next http.Handler, config *Config, name string) (http.Handler, error) {
@@ -116,7 +111,7 @@ func preprocessToken(reqHeader string, prefix string) (string, error) {
 	cleanedString = strings.TrimSpace(cleanedString)
 
 	if len(cleanedString)-len(reqHeader) >= 0 {
-		return "", fmt.Errorf("Invalid token")
+		return "", fmt.Errorf("invalid token")
 	}
 
 	return cleanedString, nil
