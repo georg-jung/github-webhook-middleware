@@ -9,7 +9,7 @@ Install with command
 ```yaml
 command:
   - "--experimental.plugins.gh-webhook.modulename=github.com/georg-jung/github-webhook-middleware"
-  - "--experimental.plugins.gh-webhook.version=v0.1.2"
+  - "--experimental.plugins.gh-webhook.version=v1.0.0"
 ```
 
 Or install inside static config file:
@@ -19,7 +19,7 @@ experimental:
   plugins:
     gh-webhook:
       modulename: github.com/georg-jung/github-webhook-middleware
-      version: v0.1.2
+      version: v1.0.0
 ```
 
 Activate plugin in your dynamic config file
